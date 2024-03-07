@@ -1,0 +1,132 @@
+{
+    "extends": [
+        // "eslint:all",
+        "plugin:react/all",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react-hooks/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["react", "@typescript-eslint"],
+    "env": {
+        "node": true,
+        "browser": true,
+        "es6": true
+    },
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "@next/next/no-page-custom-font": "off",
+        "react/jsx-pascal-case": "off",
+
+        // Serious: rules that may well help avoid mistakes
+        "no-prototype-builtins": "warn", // Sure, prototype builtins might be ovverriden, but do we really care that much here ?
+        "no-console": "warn", // While we're in development, we do want to output stuff to the console
+        "one-var": "off", // Might make sense for vanilla javascript, but that's not terribly interesting for our code
+        "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+        "init-declarations": "warn", // Yeah, better intialize variables usually, but then again, we sometimes just don't want to give it a value *yet*
+
+        // Clarity : rules that help make code clearer
+        "no-magic-numbers": "off", // While in theory, magic numbers are bad, we do want to set margins, font sizes etc directly
+        "no-extra-parens": "off", // Unneeded parens actually do make code clearer, so no thanks.
+        "global-require": "off", // The idea is that dependencies should be made obvious at the top of the file, but it's not suited to loading assets
+        "no-underscore-dangle": ["error", { "allowAfterThis": true }], // debatable ad nauseam
+        "quote-props": ["error", "consistent"], // Consistency is king
+        "id-length": ["error", { "exceptions": ["x", "y", "z", "i", "j", "t"] }],
+        "max-classes-per-file": "off", // one class per file is a good idea generally speaking, but so is keeping the number of files down. This needs good judgment, not a rule
+        "max-lines-per-function": ["error", { "max": 1000 }], // ok, but let's only make it a giant number of lines, because we're dealing with react function components here
+        "no-warning-comments": "warn",
+        "consistent-return": "off",
+
+        // Constructs: rules that prevents certain code constructs
+        "func-style": "off", // depending on context, we want the freedom to declare functions as we see fit
+        // "no-ternary": "off", // Ternary operators are just fine
+        // "multiline-ternary": "off", // one-line and multi-lines ternaries are just fine too
+        "prefer-destructuring": "off", // Destructing is fine and all, but we certainly don't want to enforce that
+        "no-continue": "off", // why on earth would we want to avoid using useful language constructs. eslint's idea that you can just invert conditions only applies to simple cases
+        "no-promise-executor-return": "off", // ok on principle, but prevents functional style one-liners, which is not great.
+        "no-undefined": "off", // undefined may be redefined but that's an edge case and we do need to use undefined in constructs in typescript so this goes off
+
+        // Optimization: Do we want unoptimal source code ?
+        "class-methods-use-this": "off", // Ok, we could turn the method into a class method, but should we always ? No.
+        "no-unused-vars": "off", // using the typescript version down below instead
+
+        // TL;DR: Rules that prevente excessive amount of code in one place
+        "max-statements": "off", // Generally, having too many statements is a code smell, but that's not something up to a rule
+        "max-params": ["warn", { "max": 5 }], // Lots of parameters might not be great, but let's not go overboard
+        "max-len": ["error", { "code": 140, "ignoreComments": true, "ignoreStrings": true }], // Seems like reasonable values
+        "max-lines": ["warn", { "max": 1000, "skipBlankLines": true }],
+
+        // Cosmetic: spacing & newlines enforcment. Mostly a matter of tastes, though we enforce consistency where possible
+        "object-property-newline": "off",
+        "padded-blocks": "off",
+        "no-trailing-spaces": "warn",
+        "newline-per-chained-call": "off",
+        "function-call-argument-newline": ["error", "consistent"],
+        "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+        "operator-linebreak": ["error", "after"],
+        "function-paren-newline": ["error", "consistent"],
+        "array-element-newline": ["error", "consistent"],
+
+        // Obessive compulsive disorder: rules for people with OCD, we don't want them rules
+        "sort-keys": "off",
+        "sort-imports": "off",
+        "dot-location": "off",
+        "object-shorthand": "off",
+        "react/function-component-definition": "off",
+
+        // Comments. Apparently there's an art to writing comments, but most rules seem excessive.
+        "multiline-comment-style": "off",
+        "line-comment-position": "off",
+        "no-inline-comments": "off",
+        "spaced-comment": ["warn", "always", { "block": { "exceptions": ["-", "="] } }],
+        "capitalized-comments": "off",
+
+        // React specific rules seem pretty annoying, so there's a bunch we disable
+        "react/forbid-component-props": "off",
+        "react/no-multi-comp": ["error", { "ignoreStateless": true }],
+        "react/display-name": "off",
+        "react/prefer-read-only-props": "off",
+        "react/prefer-stateless-function": "off",
+        "react/require-optimization": "off",
+        "react/destructuring-assignment": "off",
+        "react/no-set-state": "off",
+        "react/no-unused-state": "warn",
+        "react/sort-prop-types": "off",
+        "react/no-unsafe": "off", // much as we'd like to enforce that one, we do need componentWillMount() as there is no other method that's called after the constructor and before the first render
+        "react/require-default-props": "off",
+        "react/forbid-prop-types": "warn",
+        "react/jsx-no-bind": "warn",
+        "react/jsx-filename-extension": "off",
+        "react/jsx-wrap-multilines": "off",
+        "react/jsx-max-props-per-line": "off",
+        "react/jsx-sort-props": "off",
+        "react/jsx-sort-default-props": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/jsx-max-depth": ["error", { "max": 8 }],
+        "react/jsx-no-literals": "off",
+        "react/jsx-newline": ["off"], // We do NOT need empty lines everywhere for no reason
+        "react/jsx-handler-names": ["off"], // a good idea in general but in general only, so it's off
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-closing-bracket-location": "off",
+        "react/no-unescaped-entities": "off",
+        "react/jsx-closing-tag-location": "off",
+        "react/jsx-one-expression-per-line": "off",
+
+        // Typescript rules
+        "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "no-shadow": "off", // Turns out the standard eslint rule
+        "@typescript-eslint/no-shadow": ["error"], // And use a Typescript-specific value instead (see https://github.com/typescript-eslint/typescript-eslint/issues/2483)
+        "@typescript-eslint/no-unused-vars": ["warn", { "args": "none" }] // Pretty annoying to have this as errors while writing code, so that's a mere warning instead
+    }
+}
